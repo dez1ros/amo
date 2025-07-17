@@ -34,6 +34,7 @@ def form():
         client = request.form.get("client")
         deal = request.form.get("deal")
         phone = request.form.get("phone")
+        production_dates = request.form.get('production_dates')
         is_ip = request.form.get("is_ip") == "on"
 
         names = request.form.getlist("name[]")
@@ -62,6 +63,7 @@ def form():
         DIR = 'generated'
         number = deal
         context = {
+            "production_dates": production_dates,
             "number": number,
             "client": client,
             "deal": deal,
