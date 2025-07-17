@@ -1,0 +1,110 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f4;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+}
+
+.checkbox-label {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+textarea {
+    min-height: 40px;
+    overflow: hidden;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.item {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#add {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+#add:hover {
+    background-color: #d0d0d0;
+}
+
+.submit {
+    background-color: #111;
+    color: white;
+}
+
+.submit:hover {
+    background-color: #000;
+}
+
+.remove {
+    background: #ffdddd;
+    color: #a00;
+    padding: 0 10px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.remove:hover {
+    background: #ffcccc;
+}

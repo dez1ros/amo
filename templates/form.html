@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание документа</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='static.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Создание документа</h1>
+        <form method="POST">
+            <label>Клиент:
+                <input type="text" name="client" required>
+            </label>
+            <label>Телефон:
+                <input type="text" name="phone" placeholder="+7..." required>
+            </label>
+            <label>Номер документов:
+                <input type="text" name="deal" required>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" name="is_ip">
+                ИП Венгеров (без галочки - Прохоров)
+            </label>
+
+            <h2>Товары</h2>
+            <div id="items">
+                <div class="item">
+                    <textarea name="name[]" placeholder="Название" required></textarea>
+                    <textarea name="desc[]" placeholder="Описание"></textarea>
+                    <input type="number" name="qty[]" placeholder="Кол-во" required>
+                    <input type="number" name="price[]" placeholder="Цена" required step="0.01">
+                    <button type="button" class="remove">✖</button>
+                </div>
+            </div>
+
+            <button type="button" id="add">+ Добавить товар</button>
+            <button type="submit" class="submit">Сгенерировать документ</button>
+        </form>
+    </div>
+</body>
+</html>

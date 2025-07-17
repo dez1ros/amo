@@ -1,0 +1,9 @@
+Spire.Office
+zipfile
+flask
+docxtpl
+datetime
+os
+num2words
+locale
+io
