@@ -98,7 +98,7 @@ def form():
         # Создаём ZIP в памяти
         zip_buffer = BytesIO()
         file_name = f'{number}.zip'
-        with zipfile.ZipFile(DIR + '\\' + file_name, "w") as zip_file:
+        with zipfile.ZipFile(DIR + '/' + file_name, "w") as zip_file:
             for tpl_file, output_name in templates.items():
                 doc = DocxTemplate(f"docs/{tpl_file}")
                 doc.render(context)
@@ -121,5 +121,5 @@ def form():
     return render_template("form.html")
 
 
-if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+# if __name__ == "__main__":
+#     app.run(debug=True, port=8000)
