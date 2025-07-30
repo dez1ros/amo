@@ -108,3 +108,84 @@ button {
 .remove:hover {
     background: #ffcccc;
 }
+
+
+#page {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+#container {
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#file-sidebar {
+  width: 250px;
+  background-color: #f3f3f3;
+  border-left: 1px solid #ddd;
+  padding: 20px;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#file-sidebar h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+#file-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#file-sidebar li {
+  margin-bottom: 10px;
+}
+
+#file-sidebar a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+#file-sidebar a:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  #file-sidebar {
+    display: none;
+  }
+}
+
+.file-button {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.file-button:hover {
+  background-color: #e8e8e8;
+}
+

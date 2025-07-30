@@ -7,7 +7,8 @@
     <script src="{{ url_for('static', filename='static.js') }}" defer></script>
 </head>
 <body>
-    <div class="container">
+<div id="page">
+    <div class="container" id="container">
         <h1>Создание документа</h1>
         <form method="POST">
             <label>Клиент:
@@ -42,5 +43,10 @@
             <button type="submit" class="submit">Сгенерировать документ</button>
         </form>
     </div>
+    <div id="file-sidebar">
+        <h3>Документы</h3>
+        <ul id="file-list"></ul>
+    </div>
+</div>
 </body>
 </html>

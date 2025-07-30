@@ -1,9 +1,11 @@
 import zipfile
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, jsonify, redirect
 from docxtpl import DocxTemplate
 import datetime
 import os
+
+import json
 
 from num2words import num2words  # pip install num2words
 import locale
@@ -77,6 +79,11 @@ def form():
             "half_sum": f"{total / 2:.2f}"
         }
 
+        os.makedirs("saved_forms", exist_ok=True)
+        base_filename = f'{number}'
+        with open(f"saved_forms/{base_filename}.json", "w", encoding="utf-8") as f:
+            json.dump(context, f)
+
         # doc = DocxTemplate("docs/template.docx")
         # doc.render(context)
         # output_path = "docs/output.docx"
@@ -119,6 +126,26 @@ def form():
         # return send_file(output_path, as_attachment=True)
 
     return render_template("form.html")
+
+
+@app.route("/list-json")
+def list_json_files():
+    json_dir = "saved_forms"
+    os.makedirs(json_dir, exist_ok=True)
+    files = [f for f in os.listdir(json_dir) if f.endswith(".json")]
+    files.sort(reverse=True)
+    return jsonify({"files": files})
+
+
+@app.route("/load/<filename>")
+def load_form(filename):
+    path = os.path.join("saved_forms", f"{filename}.json")
+    if not os.path.exists(path):
+        return jsonify({"error": "Файл не найден"}), 404
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return jsonify(data)
 
 
 # if __name__ == "__main__":
