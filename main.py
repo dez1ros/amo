@@ -93,13 +93,15 @@ def form():
             templates = {
                 "template_invoice_veng.docx": f"Счёт-договор {number}.docx",
                 "template_act_veng.docx": f"Акт {number}.docx",
-                "template_nacladnaya_veng.docx": f"Накладная {number}.docx"
+                "template_nacladnaya_veng.docx": f"Накладная {number}.docx",
+                "template_spec_veng.docx": f"Спецификация {number}.docx"
             }
         else:  # Прохоров
             templates = {
                 "template_invoice_proh.docx": f"Счёт-договор {number}.docx",
                 "template_act_proh.docx": f"Акт {number}.docx",
-                "template_nacladnaya_proh.docx": f"Накладная {number}.docx"
+                "template_nacladnaya_proh.docx": f"Накладная {number}.docx",
+                "template_spec_proh.docx": f"Спецификация {number}.docx"
             }
 
         # Создаём ZIP в памяти
