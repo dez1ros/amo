@@ -62,6 +62,7 @@ def form():
 
         # Сумма прописью (в рублях)
         total_words = num2words(int(total), lang='ru')
+        half_words = num2words(int(total / 2), lang='ru')
         DIR = 'generated'
         number = deal
         context = {
@@ -76,7 +77,8 @@ def form():
             "items": items,
             "total_sum": f"{total:.2f}",
             "total_words": total_words.capitalize(),
-            "half_sum": f"{total / 2:.2f}"
+            "half_sum": f"{total / 2:.2f}",
+            "half_words": half_words.capitalize()
         }
 
         os.makedirs("saved_forms", exist_ok=True)
@@ -94,7 +96,9 @@ def form():
                 "template_invoice_veng.docx": f"Счёт-договор {number}.docx",
                 "template_act_veng.docx": f"Акт {number}.docx",
                 "template_nacladnaya_veng.docx": f"Накладная {number}.docx",
-                "template_spec_veng.docx": f"Спецификация {number}.docx"
+                "template_spec_veng.docx": f"Спецификация {number}.docx",
+                "template_predoplata_veng.docx": f"Счёт предоплата к {number}.docx",
+                "template_postoplata_veng.docx": f"Счёт остаток {number}.docx"
             }
         else:  # Прохоров
             templates = {
