@@ -2,6 +2,8 @@ import zipfile
 
 from flask import Flask, render_template, request, send_file, jsonify, redirect
 from docxtpl import DocxTemplate
+from docxcompose.composer import Composer
+from docx import Document
 import datetime
 import os
 
@@ -108,6 +110,9 @@ def form():
                 "template_spec_proh.docx": f"Спецификация {number}.docx"
             }
 
+        base_doc = Document("all_docks.docx")
+        composer = Composer(base_doc)
+
         # Создаём ZIP в памяти
         zip_buffer = BytesIO()
         file_name = f'{number}.zip'
@@ -120,6 +125,12 @@ def form():
                 # temp_buffer.seek(0)
                 zip_file.write('templ_f.docx', arcname=output_name)
                 # zip_file.writestr(output_name, f.read())
+
+                doc = Document("templ_f.docx")
+                composer.append(doc)
+
+            composer.save("output.docx")
+            zip_file.write('output.docx', arcname='all_docks.docx')
 
         # zip_buffer.seek(0)
         return send_file(
@@ -152,7 +163,6 @@ def load_form(filename):
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     return jsonify(data)
-
 
 # if __name__ == "__main__":
 #     app.run(debug=True, port=8000)
