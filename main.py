@@ -2,8 +2,7 @@ import zipfile
 
 from flask import Flask, render_template, request, send_file, jsonify, redirect
 from docxtpl import DocxTemplate
-from docxcompose.composer import Composer
-from docx import Document
+import aspose.words as aw
 import datetime
 import os
 
@@ -110,8 +109,7 @@ def form():
                 "template_spec_proh.docx": f"Спецификация {number}.docx"
             }
 
-        base_doc = Document("all_docks.docx")
-        composer = Composer(base_doc)
+        startDocx = aw.Document("all_docks.docx")
 
         # Создаём ZIP в памяти
         zip_buffer = BytesIO()
@@ -126,11 +124,11 @@ def form():
                 zip_file.write('templ_f.docx', arcname=output_name)
                 # zip_file.writestr(output_name, f.read())
 
-                doc = Document("templ_f.docx")
-                composer.append(doc)
+                addDocx = aw.Document("templ_f.docx")
+                startDocx.append_document(addDocx, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+            startDocx.save("output.docx")
+            zip_file.write('output.docx', arcname='allDocx.docx')
 
-            composer.save("output.docx")
-            zip_file.write('output.docx', arcname='all_docks.docx')
 
         # zip_buffer.seek(0)
         return send_file(
