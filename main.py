@@ -124,10 +124,10 @@ def form():
                 zip_file.write('templ_f.docx', arcname=output_name)
                 # zip_file.writestr(output_name, f.read())
 
-                addDocx = aw.Document("templ_f.docx")
-                startDocx.append_document(addDocx, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-            startDocx.save("output.docx")
-            zip_file.write('output.docx', arcname='allDocx.docx')
+                # addDocx = aw.Document("templ_f.docx")
+                # startDocx.append_document(addDocx, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+            # startDocx.save("output.docx")
+            # zip_file.write('output.docx', arcname='allDocx.docx')
 
 
         # zip_buffer.seek(0)
