@@ -109,7 +109,7 @@ def form():
                 "template_spec_proh.docx": f"Спецификация {number}.docx"
             }
 
-        startDocx = aw.Document("all_docks.docx")
+        # startDocx = aw.Document("all_docks.docx")
 
         # Создаём ZIP в памяти
         zip_buffer = BytesIO()
