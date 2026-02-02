@@ -160,16 +160,15 @@ def list_json_files():
     json_dir = "saved_forms"
     os.makedirs(json_dir, exist_ok=True)
 
-    files = []
-    for f in os.listdir(json_dir):
-        if f.endswith(".json"):
-            path = os.path.join(json_dir, f)
-            files.append({
-                "name": f,
-                "mtime": os.path.getmtime(path)
-            })
+    files = [
+        f for f in os.listdir(json_dir)
+        if f.endswith(".json")
+    ]
 
-    files.sort(key=lambda x: x["mtime"], reverse=True)
+    files.sort(
+        key=lambda f: os.path.getmtime(os.path.join(json_dir, f)),
+        reverse=True
+    )
 
     return jsonify({"files": files})
 
