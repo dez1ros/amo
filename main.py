@@ -109,36 +109,48 @@ def form():
                 "template_spec_proh.docx": f"Спецификация {number}.docx"
             }
 
-        # startDocx = aw.Document("all_docks.docx")
-
-        # Создаём ZIP в памяти
-        zip_buffer = BytesIO()
         file_name = f'{number}.zip'
+        from docx import Document
+        from docxcompose.composer import Composer
+
         with zipfile.ZipFile(DIR + '/' + file_name, "w") as zip_file:
-            for tpl_file, output_name in templates.items():
+            combined_doc = None  # будущий общий документ
+
+            for idx, (tpl_file, output_name) in enumerate(templates.items()):
                 doc = DocxTemplate(f"docs/{tpl_file}")
                 doc.render(context)
-                # temp_buffer = BytesIO()
-                doc.save('templ_f.docx')
-                # temp_buffer.seek(0)
-                zip_file.write('templ_f.docx', arcname=output_name)
-                # zip_file.writestr(output_name, f.read())
+                temp_path = f'temp_{idx}.docx'
+                doc.save(temp_path)
 
-                # addDocx = aw.Document("templ_f.docx")
-                # startDocx.append_document(addDocx, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-            # startDocx.save("output.docx")
-            # zip_file.write('output.docx', arcname='allDocx.docx')
+                # кладём отдельный файл в ZIP
+                zip_file.write(temp_path, arcname=output_name)
 
+                # собираем общий документ
+                if combined_doc is None:
+                    combined_doc = Document(temp_path)
+                    composer = Composer(combined_doc)
+                else:
+                    composer.append(Document(temp_path))
 
-        # zip_buffer.seek(0)
+            # сохраняем общий документ
+            all_docs_name = f"Все документы {number}.docx"
+            all_docs_path = f"all_{number}.docx"
+            composer.save(all_docs_path)
+
+            # кладём общий документ в ZIP
+            zip_file.write(all_docs_path, arcname=all_docs_name)
+
+            # чистим временные файлы
+            for idx in range(len(templates)):
+                os.remove(f'temp_{idx}.docx')
+            os.remove(all_docs_path)
+
         return send_file(
             os.path.join(DIR, file_name),
             mimetype="application/zip",
             as_attachment=True,
             # download_name="документы.zip"
         )
-
-        # return send_file(output_path, as_attachment=True)
 
     return render_template("form.html")
 
