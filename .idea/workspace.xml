@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29477105-42a1-4208-a15e-54e809ed2a91" name="Changes" comment="общий документ добавлен + тест сортровки">
+      <change beforePath="$PROJECT_DIR$/docs/~$mplate_KP_proh.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/~$mplate_invoice_proh.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
