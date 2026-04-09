@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29477105-42a1-4208-a15e-54e809ed2a91" name="Changes" comment="общий документ добавлен + тест сортровки">
-      <change afterPath="$PROJECT_DIR$/docs/template_KO_proh.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/template_KP_proh.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/template_postoplata_proh.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/template_predoplata_proh.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/template_act_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_act_proh.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/template_act_veng.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_act_veng.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/template_invoice_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_invoice_proh.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/template_invoice_veng.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_invoice_veng.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/template_spec_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_spec_proh.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
