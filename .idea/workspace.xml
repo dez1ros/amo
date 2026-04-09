@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="29477105-42a1-4208-a15e-54e809ed2a91" name="Changes" comment="общий документ добавлен + тест сортровки">
+      <change afterPath="$PROJECT_DIR$/docs/template_KO_proh.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/template_KP_proh.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/template_postoplata_proh.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/template_predoplata_proh.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/template_act_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_act_proh.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/template_act_veng.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_act_veng.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/template_invoice_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_invoice_proh.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/template_invoice_veng.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_invoice_veng.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/template_spec_proh.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/template_spec_proh.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dez1ros&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dez1ros/amo.git&quot;,
+    &quot;accountId&quot;: &quot;e9c117f9-2876-4078-b7bd-3ad642db5f27&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2zaBE8B3b2yfz0bR1SpSLvBXbhJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.1.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/sasha/PycharmProjects/amoCRM_docs/docs",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "two.files.diff.last.used.file": "C:/Users/sasha/PycharmProjects/amoCRM_docs/docs/template_postoplata_veng.docx"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\docs" />
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\app\utils" />
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\app\storage" />
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\app\services" />
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\app\routes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\docs" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="amoCRM_docs" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-975db3bf15a3-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18034.82" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="29477105-42a1-4208-a15e-54e809ed2a91" name="Changes" comment="" />
+      <created>1751959189151</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751959189151</updated>
+    </task>
+    <task id="LOCAL-00001" summary="first adding">
+      <option name="closed" value="true" />
+      <created>1752735790816</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1752735790816</updated>
+    </task>
+    <task id="LOCAL-00002" summary="+сроки производства">
+      <option name="closed" value="true" />
+      <created>1752742483925</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1752742483925</updated>
+    </task>
+    <task id="LOCAL-00003" summary="для линукса">
+      <option name="closed" value="true" />
+      <created>1752742583514</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1752742583514</updated>
+    </task>
+    <task id="LOCAL-00004" summary="фикс шаблонов">
+      <option name="closed" value="true" />
+      <created>1753106910104</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1753106910104</updated>
+    </task>
+    <task id="LOCAL-00005" summary="добавил список файлов справа">
+      <option name="closed" value="true" />
+      <created>1753866876303</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1753866876303</updated>
+    </task>
+    <task id="LOCAL-00006" summary="+спецификация">
+      <option name="closed" value="true" />
+      <created>1753880453157</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1753880453157</updated>
+    </task>
+    <task id="LOCAL-00007" summary="+спецификация fix">
+      <option name="closed" value="true" />
+      <created>1753881453340</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1753881453340</updated>
+    </task>
+    <task id="LOCAL-00008" summary="+спецификация fix">
+      <option name="closed" value="true" />
+      <created>1753881478522</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1753881478522</updated>
+    </task>
+    <task id="LOCAL-00009" summary="+счета на предоплату/постоплату">
+      <option name="closed" value="true" />
+      <created>1753957796168</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1753957796168</updated>
+    </task>
+    <task id="LOCAL-00010" summary="общий документ тест">
+      <option name="closed" value="true" />
+      <created>1768388859624</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768388859624</updated>
+    </task>
+    <task id="LOCAL-00011" summary="общий документ тест">
+      <option name="closed" value="true" />
+      <created>1768389253556</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768389253556</updated>
+    </task>
+    <task id="LOCAL-00012" summary="общий документ тест 3">
+      <option name="closed" value="true" />
+      <created>1768389497270</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1768389497270</updated>
+    </task>
+    <task id="LOCAL-00013" summary="общий документ тест 4">
+      <option name="closed" value="true" />
+      <created>1768390197052</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1768390197052</updated>
+    </task>
+    <task id="LOCAL-00014" summary="общий документ тест 4">
+      <option name="closed" value="true" />
+      <created>1768564611511</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768564611512</updated>
+    </task>
+    <task id="LOCAL-00015" summary="общий документ тест 4">
+      <option name="closed" value="true" />
+      <created>1768564821862</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768564821862</updated>
+    </task>
+    <task id="LOCAL-00016" summary="общий документ тест 5">
+      <option name="closed" value="true" />
+      <created>1770034611236</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1770034611236</updated>
+    </task>
+    <task id="LOCAL-00017" summary="общий документ добавлен + тест сортровки">
+      <option name="closed" value="true" />
+      <created>1770035401906</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1770035401906</updated>
+    </task>
+    <task id="LOCAL-00018" summary="общий документ добавлен + тест сортровки">
+      <option name="closed" value="true" />
+      <created>1770035508654</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1770035508654</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first adding" />
+    <MESSAGE value="+сроки производства" />
+    <MESSAGE value="для линукса" />
+    <MESSAGE value="фикс шаблонов" />
+    <MESSAGE value="добавил список файлов справа" />
+    <MESSAGE value="+спецификация" />
+    <MESSAGE value="+спецификация fix" />
+    <MESSAGE value="+счета на предоплату/постоплату" />
+    <MESSAGE value="общий документ тест" />
+    <MESSAGE value="общий документ тест 3" />
+    <MESSAGE value="общий документ тест 4" />
+    <MESSAGE value="общий документ тест 5" />
+    <MESSAGE value="общий документ добавлен + тест сортровки" />
+    <option name="LAST_COMMIT_MESSAGE" value="общий документ добавлен + тест сортровки" />
+  </component>
+</project>

@@ -18,13 +18,21 @@ locale.setlocale(locale.LC_ALL, '')
 app = Flask(__name__)
 
 
-def get_russian_date(is_words=False):
+def get_russian_date(is_words=False, current=None):
     months = {
         1: "января", 2: "февраля", 3: "марта", 4: "апреля",
         5: "мая", 6: "июня", 7: "июля", 8: "августа",
         9: "сентября", 10: "октября", 11: "ноября", 12: "декабря"
     }
     now = datetime.datetime.now()
+    if current:
+        if current == "month":
+            return now.strftime("%m")
+        elif current == "year":
+            return now.year
+        elif current == "day":
+            return now.strftime("%d")
+
     if is_words:
         return now.strftime("%d") + ' ' + months[now.month] + f" {now.year}"
     else:
@@ -79,7 +87,10 @@ def form():
             "total_sum": f"{total:.2f}",
             "total_words": total_words.capitalize(),
             "half_sum": f"{total / 2:.2f}",
-            "half_words": half_words.capitalize()
+            "half_words": half_words.capitalize(),
+            "date_day": get_russian_date(current="day"),
+            "date_month": get_russian_date(current="month"),
+            "date_year": get_russian_date(current="year")
         }
 
         os.makedirs("saved_forms", exist_ok=True)
@@ -106,7 +117,11 @@ def form():
                 "template_invoice_proh.docx": f"Счёт-договор {number}.docx",
                 "template_act_proh.docx": f"Акт {number}.docx",
                 "template_nacladnaya_proh.docx": f"Накладная {number}.docx",
-                "template_spec_proh.docx": f"Спецификация {number}.docx"
+                "template_spec_proh.docx": f"Спецификация {number}.docx",
+                "template_predoplata_proh.docx": f"Счёт предоплата к {number}.docx",
+                "template_postoplata_proh.docx": f"Счёт остаток {number}.docx",
+                "template_KP_proh": f"КП.docx",
+                "template_KO_proh": f"Кассовый ордер {number}.docx"
             }
 
         file_name = f'{number}.zip'
