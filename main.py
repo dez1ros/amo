@@ -121,7 +121,7 @@ def form():
                 "template_predoplata_proh.docx": f"Счёт предоплата к {number}.docx",
                 "template_postoplata_proh.docx": f"Счёт остаток {number}.docx",
                 # "template_KP_proh": f"КП.docx",
-                # "template_KO_proh": f"Кассовый ордер {number}.docx"
+                "template_KO_proh": f"Кассовый ордер {number}.docx"
             }
 
         file_name = f'{number}.zip'
