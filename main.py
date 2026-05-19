@@ -115,7 +115,8 @@ def form():
             }
         else:  # Прохоров
             templates = {
-                "template_invoice_proh.docx": f"Счёт-договор {number}.docx",
+                "template_invoice_proh_QR.docx": f"Счёт-договор {number}.docx",
+                "template_invoice_proh_.docx": f"Счёт-договор {number} без QR.docx",
                 "template_act_proh.docx": f"Акт {number}.docx",
                 "template_nacladnaya_proh.docx": f"Накладная {number}.docx",
                 "template_spec_proh.docx": f"Спецификация {number}.docx",
