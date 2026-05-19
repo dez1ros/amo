@@ -2,6 +2,7 @@ import zipfile
 
 from flask import Flask, render_template, request, send_file, jsonify, redirect
 from docxtpl import DocxTemplate
+from docx.enum.section import WD_SECTION
 import aspose.words as aw
 import datetime
 import os
@@ -140,14 +141,30 @@ def form():
                 # кладём отдельный файл в ZIP
                 zip_file.write(temp_path, arcname=output_name)
 
+                doc_to_append = Document(temp_path)
+
                 # собираем общий документ
                 if combined_doc is None:
                     combined_doc = Document(temp_path)
                     composer = Composer(combined_doc)
                 else:
-                    # ВСТАВЛЯЕМ РАЗРЫВ СТРАНИЦЫ ПЕРЕД ДОБАВЛЕНИЕМ НОВОГО ФАЙЛА
-                    combined_doc.add_page_break()
-                    composer.append(Document(temp_path))
+                    # 1. Берем настройки страницы из файла, который собираемся добавить
+                    incoming_section = doc_to_append.sections[0]
+
+                    # 2. Создаем НОВЫЙ РАЗДЕЛ (а не просто разрыв страницы)
+                    new_section = combined_doc.add_section(WD_SECTION.NEW_PAGE)
+
+                    # 3. Жестко копируем размеры и поля, чтобы таблицам было куда влезть
+                    new_section.page_width = incoming_section.page_width
+                    new_section.page_height = incoming_section.page_height
+                    new_section.left_margin = incoming_section.left_margin
+                    new_section.right_margin = incoming_section.right_margin
+                    new_section.top_margin = incoming_section.top_margin
+                    new_section.bottom_margin = incoming_section.bottom_margin
+                    new_section.orientation = incoming_section.orientation
+
+                    # 4. Только теперь приклеиваем документ
+                    composer.append(doc_to_append)
 
             # сохраняем общий документ
             all_docs_name = f"Все документы {number}.docx"
