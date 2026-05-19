@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29477105-42a1-4208-a15e-54e809ed2a91" name="Changes" comment="общий документ добавлен + тест сортровки">
-      <change beforePath="$PROJECT_DIR$/docs/~$mplate_KP_proh.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/~$mplate_invoice_proh.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,19 +44,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.1.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/sasha/PycharmProjects/amoCRM_docs/docs",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "two.files.diff.last.used.file": "C:/Users/sasha/PycharmProjects/amoCRM_docs/docs/template_postoplata_veng.docx"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sasha/PycharmProjects/amoCRM_docs/docs&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/sasha/PycharmProjects/amoCRM_docs/docs/template_postoplata_veng.docx&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sasha\PycharmProjects\amoCRM_docs\docs" />
