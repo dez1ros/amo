@@ -145,6 +145,8 @@ def form():
                     combined_doc = Document(temp_path)
                     composer = Composer(combined_doc)
                 else:
+                    # ВСТАВЛЯЕМ РАЗРЫВ СТРАНИЦЫ ПЕРЕД ДОБАВЛЕНИЕМ НОВОГО ФАЙЛА
+                    combined_doc.add_page_break()
                     composer.append(Document(temp_path))
 
             # сохраняем общий документ
