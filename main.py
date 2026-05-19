@@ -143,6 +143,8 @@ def form():
                 zip_file.write(temp_path, arcname=output_name)
 
                 doc_to_append = Document(temp_path)
+                if tpl_file == "template_invoice_proh_.docx":
+                    continue
 
                 # собираем общий документ
                 if combined_doc is None:
