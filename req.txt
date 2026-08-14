@@ -1,9 +1,8 @@
-Spire.Office
-zipfile
-flask
+Flask
 docxtpl
-datetime
-os
+python-docx
+docxcompose
 num2words
-locale
-io
+Spire.Doc
+aspose-words
+openpyxl

@@ -1,10 +1,11 @@
 import zipfile
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from flask import Flask, render_template, request, send_file, jsonify, redirect
 from docxtpl import DocxTemplate
 from docx.enum.section import WD_SECTION
 import aspose.words as aw
-import datetime
 import os
 
 import json
@@ -13,31 +14,23 @@ from num2words import num2words  # pip install num2words
 import locale
 from io import BytesIO
 
+from generation import generate_upd_xlsx
+from utils import add_file_to_archive, get_russian_date
+
 # Установим локаль для num2words
 locale.setlocale(locale.LC_ALL, '')
 
 app = Flask(__name__)
 
 
-def get_russian_date(is_words=False, current=None):
-    months = {
-        1: "января", 2: "февраля", 3: "марта", 4: "апреля",
-        5: "мая", 6: "июня", 7: "июля", 8: "августа",
-        9: "сентября", 10: "октября", 11: "ноября", 12: "декабря"
-    }
-    now = datetime.datetime.now()
-    if current:
-        if current == "month":
-            return now.strftime("%m")
-        elif current == "year":
-            return now.year
-        elif current == "day":
-            return now.strftime("%d")
+def _safe_filename_part(value):
+    invalid_characters = '<>:"/\\|?*'
+    safe_value = "".join(
+        "_" if character in invalid_characters or ord(character) < 32 else character
+        for character in str(value)
+    )
+    return safe_value.strip().rstrip(". ") or "document"
 
-    if is_words:
-        return now.strftime("%d") + ' ' + months[now.month] + f" {now.year}"
-    else:
-        return now.strftime("%d") + '.' + now.strftime("%m") + f".{now.year}"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -105,6 +98,7 @@ def form():
         # doc.save(output_path)
 
         if is_ip:  # Венгеров
+            upd_template_path = Path("docs") / "template_upd_veng.xlsx"
             templates = {
                 "template_invoice_veng.docx": f"Счёт-договор {number}.docx",
                 "template_act_veng.docx": f"Акт {number}.docx",
@@ -114,6 +108,7 @@ def form():
                 "template_postoplata_veng.docx": f"Счёт остаток {number}.docx"
             }
         else:  # Прохоров
+            upd_template_path = Path("docs") / "template_upd_proh.xlsx"
             templates = {
                 "template_invoice_proh_QR.docx": f"Счёт-договор {number}.docx",
                 "template_invoice_proh_.docx": f"Счёт-договор {number} без QR.docx",
@@ -130,60 +125,66 @@ def form():
         from docx import Document
         from docxcompose.composer import Composer
 
-        with zipfile.ZipFile(DIR + '/' + file_name, "w") as zip_file:
-            combined_doc = None  # будущий общий документ
+        generated_dir = Path(DIR)
+        generated_dir.mkdir(parents=True, exist_ok=True)
+        zip_path = generated_dir / file_name
+        upd_archive_name = f"УПД {_safe_filename_part(number)}.xlsx"
 
-            for idx, (tpl_file, output_name) in enumerate(templates.items()):
-                doc = DocxTemplate(f"docs/{tpl_file}")
-                doc.render(context)
-                temp_path = f'temp_{idx}.docx'
-                doc.save(temp_path)
+        with TemporaryDirectory(prefix="amo_documents_") as temp_dir_name:
+            temp_dir = Path(temp_dir_name)
+            upd_output_path = temp_dir / "upd.xlsx"
+            generate_upd_xlsx(upd_template_path, upd_output_path, context)
 
-                # кладём отдельный файл в ZIP
-                zip_file.write(temp_path, arcname=output_name)
+            with zipfile.ZipFile(zip_path, "w") as zip_file:
+                combined_doc = None  # будущий общий документ
 
-                doc_to_append = Document(temp_path)
-                if tpl_file == "template_invoice_proh_.docx":
-                    continue
+                for idx, (tpl_file, output_name) in enumerate(templates.items()):
+                    doc = DocxTemplate(f"docs/{tpl_file}")
+                    doc.render(context)
+                    temp_path = temp_dir / f"document_{idx}.docx"
+                    doc.save(temp_path)
 
-                # собираем общий документ
-                if combined_doc is None:
-                    combined_doc = Document(temp_path)
-                    composer = Composer(combined_doc)
-                else:
-                    # 1. Берем настройки страницы из файла, который собираемся добавить
-                    incoming_section = doc_to_append.sections[0]
+                    # кладём отдельный файл в ZIP
+                    zip_file.write(temp_path, arcname=output_name)
 
-                    # 2. Создаем НОВЫЙ РАЗДЕЛ (а не просто разрыв страницы)
-                    new_section = combined_doc.add_section(WD_SECTION.NEW_PAGE)
+                    doc_to_append = Document(temp_path)
+                    if tpl_file == "template_invoice_proh_.docx":
+                        continue
 
-                    # 3. Жестко копируем размеры и поля, чтобы таблицам было куда влезть
-                    new_section.page_width = incoming_section.page_width
-                    new_section.page_height = incoming_section.page_height
-                    new_section.left_margin = incoming_section.left_margin
-                    new_section.right_margin = incoming_section.right_margin
-                    new_section.top_margin = incoming_section.top_margin
-                    new_section.bottom_margin = incoming_section.bottom_margin
-                    new_section.orientation = incoming_section.orientation
+                    # собираем общий документ
+                    if combined_doc is None:
+                        combined_doc = Document(temp_path)
+                        composer = Composer(combined_doc)
+                    else:
+                        # 1. Берем настройки страницы из файла, который собираемся добавить
+                        incoming_section = doc_to_append.sections[0]
 
-                    # 4. Только теперь приклеиваем документ
-                    composer.append(doc_to_append)
+                        # 2. Создаем НОВЫЙ РАЗДЕЛ (а не просто разрыв страницы)
+                        new_section = combined_doc.add_section(WD_SECTION.NEW_PAGE)
 
-            # сохраняем общий документ
-            all_docs_name = f"Все документы {number}.docx"
-            all_docs_path = f"all_{number}.docx"
-            composer.save(all_docs_path)
+                        # 3. Жестко копируем размеры и поля, чтобы таблицам было куда влезть
+                        new_section.page_width = incoming_section.page_width
+                        new_section.page_height = incoming_section.page_height
+                        new_section.left_margin = incoming_section.left_margin
+                        new_section.right_margin = incoming_section.right_margin
+                        new_section.top_margin = incoming_section.top_margin
+                        new_section.bottom_margin = incoming_section.bottom_margin
+                        new_section.orientation = incoming_section.orientation
 
-            # кладём общий документ в ZIP
-            zip_file.write(all_docs_path, arcname=all_docs_name)
+                        # 4. Только теперь приклеиваем документ
+                        composer.append(doc_to_append)
 
-            # чистим временные файлы
-            for idx in range(len(templates)):
-                os.remove(f'temp_{idx}.docx')
-            os.remove(all_docs_path)
+                # сохраняем общий документ
+                all_docs_name = f"Все документы {number}.docx"
+                all_docs_path = temp_dir / "all_documents.docx"
+                composer.save(all_docs_path)
+
+                # кладём общий документ и УПД в ZIP
+                zip_file.write(all_docs_path, arcname=all_docs_name)
+                add_file_to_archive(zip_file, upd_output_path, upd_archive_name)
 
         return send_file(
-            os.path.join(DIR, file_name),
+            zip_path,
             mimetype="application/zip",
             as_attachment=True,
             # download_name="документы.zip"
@@ -220,5 +221,5 @@ def load_form(filename):
         data = json.load(f)
     return jsonify(data)
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=8000)
+if __name__ == "__main__":
+    app.run(debug=True, port=8000)
