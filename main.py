@@ -2,18 +2,15 @@ import zipfile
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from flask import Flask, render_template, request, send_file, jsonify, redirect
+from flask import Flask, render_template, request, send_file, jsonify
 from docxtpl import DocxTemplate
 from docx.enum.section import WD_SECTION
-import aspose.words as aw
 import os
 
 import json
 
 from num2words import num2words  # pip install num2words
 import locale
-from io import BytesIO
-
 from generation import generate_upd_xlsx
 from utils import add_file_to_archive, get_russian_date
 
@@ -21,6 +18,52 @@ from utils import add_file_to_archive, get_russian_date
 locale.setlocale(locale.LC_ALL, '')
 
 app = Flask(__name__)
+
+
+ORGANIZATIONS = {
+    "proh": {
+        "label": "ИП Прохоров М.В.",
+        "upd_template": "template_upd_proh.xlsx",
+        "templates": (
+            ("template_invoice_proh_QR.docx", "Счёт-договор {number}.docx"),
+            ("template_invoice_proh_.docx", "Счёт-договор {number} без QR.docx"),
+            ("template_act_proh.docx", "Акт {number}.docx"),
+            ("template_nacladnaya_proh.docx", "Накладная {number}.docx"),
+            ("template_spec_proh.docx", "Спецификация {number}.docx"),
+            ("template_predoplata_proh.docx", "Счёт предоплата к {number}.docx"),
+            ("template_postoplata_proh.docx", "Счёт остаток {number}.docx"),
+            ("template_KP_proh.docx", "КП.docx"),
+            ("template_KO_proh.docx", "Кассовый ордер {number}.docx"),
+        ),
+        "exclude_from_combined": {"template_invoice_proh_.docx"},
+    },
+    "veng": {
+        "label": "ИП Венгерова Е.Ю.",
+        "upd_template": "template_upd_veng.xlsx",
+        "templates": (
+            ("template_invoice_veng.docx", "Счёт-договор {number}.docx"),
+            ("template_act_veng.docx", "Акт {number}.docx"),
+            ("template_nacladnaya_veng.docx", "Накладная {number}.docx"),
+            ("template_spec_veng.docx", "Спецификация {number}.docx"),
+            ("template_predoplata_veng.docx", "Счёт предоплата к {number}.docx"),
+            ("template_postoplata_veng.docx", "Счёт остаток {number}.docx"),
+        ),
+        "exclude_from_combined": set(),
+    },
+    "veng_self": {
+        "label": "Самозанятый Венгеров А.Ю.",
+        "upd_template": "template_upd_veng_self.xlsx",
+        "templates": (
+            ("template_invoice_veng_self.docx", "Счёт-договор {number}.docx"),
+            ("template_act_veng_self.docx", "Акт {number}.docx"),
+            ("template_nacladnaya_veng_self.docx", "Накладная {number}.docx"),
+            ("template_spec_veng_self.docx", "Спецификация {number}.docx"),
+            ("template_predoplata_veng_self.docx", "Счёт предоплата к {number}.docx"),
+            ("template_postoplata_veng_self.docx", "Счёт остаток {number}.docx"),
+        ),
+        "exclude_from_combined": set(),
+    },
+}
 
 
 def _safe_filename_part(value):
@@ -40,7 +83,14 @@ def form():
         deal = request.form.get("deal")
         phone = request.form.get("phone")
         production_dates = request.form.get('production_dates')
-        is_ip = request.form.get("is_ip") == "on"
+        organization = request.form.get("organization")
+        if not organization:
+            # Поддержка запросов от старой формы с чекбоксом is_ip.
+            organization = "veng" if request.form.get("is_ip") == "on" else "proh"
+
+        organization_config = ORGANIZATIONS.get(organization)
+        if organization_config is None:
+            return jsonify({"error": "Неизвестная организация"}), 400
 
         names = request.form.getlist("name[]")
         descs = request.form.getlist("desc[]")
@@ -74,7 +124,6 @@ def form():
             "client": client,
             "deal": deal,
             "phone": phone,
-            "is_ip": is_ip,
             "date": get_russian_date(),
             "date_words": get_russian_date(True),
             "items": items,
@@ -87,39 +136,24 @@ def form():
             "date_year": get_russian_date(current="year")
         }
 
+        saved_form = {
+            **context,
+            "organization": organization,
+        }
+
         os.makedirs("saved_forms", exist_ok=True)
         base_filename = f'{number}'
         with open(f"saved_forms/{base_filename}.json", "w", encoding="utf-8") as f:
-            json.dump(context, f)
+            json.dump(saved_form, f)
 
         # doc = DocxTemplate("docs/template.docx")
         # doc.render(context)
         # output_path = "docs/output.docx"
         # doc.save(output_path)
 
-        if is_ip:  # Венгеров
-            upd_template_path = Path("docs") / "template_upd_veng.xlsx"
-            templates = {
-                "template_invoice_veng.docx": f"Счёт-договор {number}.docx",
-                "template_act_veng.docx": f"Акт {number}.docx",
-                "template_nacladnaya_veng.docx": f"Накладная {number}.docx",
-                "template_spec_veng.docx": f"Спецификация {number}.docx",
-                "template_predoplata_veng.docx": f"Счёт предоплата к {number}.docx",
-                "template_postoplata_veng.docx": f"Счёт остаток {number}.docx"
-            }
-        else:  # Прохоров
-            upd_template_path = Path("docs") / "template_upd_proh.xlsx"
-            templates = {
-                "template_invoice_proh_QR.docx": f"Счёт-договор {number}.docx",
-                "template_invoice_proh_.docx": f"Счёт-договор {number} без QR.docx",
-                "template_act_proh.docx": f"Акт {number}.docx",
-                "template_nacladnaya_proh.docx": f"Накладная {number}.docx",
-                "template_spec_proh.docx": f"Спецификация {number}.docx",
-                "template_predoplata_proh.docx": f"Счёт предоплата к {number}.docx",
-                "template_postoplata_proh.docx": f"Счёт остаток {number}.docx",
-                "template_KP_proh.docx": f"КП.docx",
-                "template_KO_proh.docx": f"Кассовый ордер {number}.docx"
-            }
+        upd_template_path = Path("docs") / organization_config["upd_template"]
+        templates = organization_config["templates"]
+        excluded_templates = organization_config["exclude_from_combined"]
 
         file_name = f'{number}.zip'
         from docx import Document
@@ -138,7 +172,8 @@ def form():
             with zipfile.ZipFile(zip_path, "w") as zip_file:
                 combined_doc = None  # будущий общий документ
 
-                for idx, (tpl_file, output_name) in enumerate(templates.items()):
+                for idx, (tpl_file, output_name_template) in enumerate(templates):
+                    output_name = output_name_template.format(number=number)
                     doc = DocxTemplate(f"docs/{tpl_file}")
                     doc.render(context)
                     temp_path = temp_dir / f"document_{idx}.docx"
@@ -148,7 +183,7 @@ def form():
                     zip_file.write(temp_path, arcname=output_name)
 
                     doc_to_append = Document(temp_path)
-                    if tpl_file == "template_invoice_proh_.docx":
+                    if tpl_file in excluded_templates:
                         continue
 
                     # собираем общий документ
@@ -190,7 +225,7 @@ def form():
             # download_name="документы.zip"
         )
 
-    return render_template("form.html")
+    return render_template("form.html", organizations=ORGANIZATIONS)
 
 
 @app.route("/list-json")

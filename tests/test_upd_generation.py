@@ -1,9 +1,11 @@
 import hashlib
 import io
+import json
 import tempfile
 import unittest
 import uuid
 import zipfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from docx import Document
@@ -39,7 +41,7 @@ def sample_context(item_count=1):
         "client": "ООО Покупатель",
         "deal": "42-26",
         "phone": "+7 900 000-00-00",
-        "is_ip": False,
+        "organization": "proh",
         "date": "14.08.2026",
         "date_words": "14 августа 2026",
         "items": items,
@@ -54,6 +56,38 @@ def sample_context(item_count=1):
 
 
 class UpdGenerationTests(unittest.TestCase):
+    def test_self_employed_templates_have_only_new_organization_details(self):
+        docx_templates = sorted(
+            (PROJECT_ROOT / "docs").glob("template_*_veng_self.docx")
+        )
+        self.assertEqual(6, len(docx_templates))
+
+        for template_path in docx_templates:
+            with self.subTest(template=template_path.name):
+                with zipfile.ZipFile(template_path) as archive:
+                    document_xml = archive.read("word/document.xml")
+                root = ET.fromstring(document_xml)
+                text = "".join(
+                    node.text or "" for node in root.iter() if node.tag.endswith("}t")
+                )
+
+                self.assertIn("Самозанятый Венгеров А.Ю.", text)
+                self.assertIn("770200924557", text)
+                self.assertIn("+79772730883", text)
+                self.assertNotIn("Венгерова Е.Ю.", text)
+                self.assertNotIn("772573133488", text)
+
+        upd_template = PROJECT_ROOT / "docs" / "template_upd_veng_self.xlsx"
+        upd_book = load_workbook(upd_template)
+        try:
+            sheet = upd_book.active
+            self.assertEqual("Самозанятый Венгеров А.Ю.", sheet["AZ4"].value)
+            self.assertEqual("ИНН 770200924557", sheet["AZ6"].value)
+            self.assertEqual("Венгеров А.Ю.", sheet["BN27"].value)
+            self.assertIsNone(sheet["AZ5"].value)
+        finally:
+            upd_book.close()
+
     def test_generates_one_item_row_without_changing_template(self):
         template_hash = file_hash(UPD_TEMPLATE)
 
@@ -179,16 +213,17 @@ class UpdGenerationTests(unittest.TestCase):
     def test_flask_selects_matching_upd_template(self):
         from main import app
 
-        cases = ((False, "Прохоров М.В."), (True, "Венгерова Е.Ю."))
-        for is_ip, expected_seller in cases:
-            with self.subTest(is_ip=is_ip):
+        cases = (
+            ("proh", "Прохоров М.В.", "template_upd_proh.xlsx"),
+            ("veng", "Венгерова Е.Ю.", "template_upd_veng.xlsx"),
+            ("veng_self", "Венгеров А.Ю.", "template_upd_veng_self.xlsx"),
+        )
+        for organization, expected_seller, template_name in cases:
+            with self.subTest(organization=organization):
                 number = f"codex-upd-{uuid.uuid4().hex}"
                 generated_zip = PROJECT_ROOT / "generated" / f"{number}.zip"
                 saved_form = PROJECT_ROOT / "saved_forms" / f"{number}.json"
                 response = None
-                template_name = (
-                    "template_upd_veng.xlsx" if is_ip else "template_upd_proh.xlsx"
-                )
                 template_path = PROJECT_ROOT / "docs" / template_name
                 template_hash = file_hash(template_path)
                 existing_names = [
@@ -199,7 +234,7 @@ class UpdGenerationTests(unittest.TestCase):
                     f"Счёт предоплата к {number}.docx",
                     f"Счёт остаток {number}.docx",
                 ]
-                if not is_ip:
+                if organization == "proh":
                     existing_names.insert(1, f"Счёт-договор {number} без QR.docx")
                     existing_names.extend(
                         ["КП.docx", f"Кассовый ордер {number}.docx"]
@@ -211,14 +246,12 @@ class UpdGenerationTests(unittest.TestCase):
                         "deal": number,
                         "phone": "+7 900 000-00-00",
                         "production_dates": "15-35",
+                        "organization": organization,
                         "name[]": ["Тестовый товар"],
                         "desc[]": ["Описание"],
                         "qty[]": ["2"],
                         "price[]": ["100.50"],
                 }
-                if is_ip:
-                    request_data["is_ip"] = "on"
-
                 try:
                     with app.test_client() as client:
                         response = client.post("/", data=request_data)
@@ -231,6 +264,9 @@ class UpdGenerationTests(unittest.TestCase):
                         upd_book = load_workbook(io.BytesIO(archive.read(upd_name)))
                         self.assertEqual(expected_seller, upd_book.active["BN23"].value)
                         upd_book.close()
+                    saved_data = json.loads(saved_form.read_text(encoding="utf-8"))
+                    self.assertEqual(organization, saved_data["organization"])
+                    self.assertNotIn("is_ip", saved_data)
                     self.assertEqual(template_hash, file_hash(template_path))
                 finally:
                     if response is not None:

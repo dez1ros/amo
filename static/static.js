@@ -90,9 +90,11 @@ function loadFileList() {
 }
 
 function restoreFormFromJson(data) {
-  // Вводим телефон и чекбокс
+  // Старые сохранения содержат is_ip вместо organization.
+  const organization = data.organization || (data.is_ip ? "veng" : "proh");
+
   document.querySelector('input[name="phone"]').value = data.phone || "";
-  document.querySelector('input[name="is_ip"]').checked = !!data.is_ip;
+  document.querySelector('select[name="organization"]').value = organization;
   document.querySelector('input[name="client"]').value = data.client || "";
   document.querySelector('input[name="deal"]').value = data.deal || "";
   document.querySelector('input[name="production_dates"]').value = data.production_dates || "";
